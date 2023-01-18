@@ -1,0 +1,8 @@
+name = "router"
+type = "javascript"
+
+account_id = "c714a393dbfabeb858a7dea729b5e8f8"
+workers_dev = true
+route = ""
+zone_id = ""
+node_compat = true
