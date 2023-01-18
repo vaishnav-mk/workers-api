@@ -1,21 +1,48 @@
-## Router
+## workers-api
+A small API built on top of Cloudflare Workers using the cache API and the [`itty-router`](https://github.com/kwhitley/itty-router) package to add routing.
 
-This template demonstrates using the [`itty-router`](https://github.com/kwhitley/itty-router) package to add routing to your Cloudflare Workers.
+- Check out the [live demo](https://router.wishee.workers.dev)!
 
-[`index.js`](https://github.com/cloudflare/worker-template-router/blob/master/index.js) is the content of the Workers script.
+[![Deploy to Cloudflare Workers](https://deploy.workers.cloudflare.com/button)](https://deploy.workers.cloudflare.com/?url=https://github.com/vaishnav-mk/workers-api)
 
-#### Wrangler
+### Usage
+1. Clone the repo
+2. Run `npm install`
+3. Run `wrangler dev` to start the development server
+4. Run `wrangler publish` to publish the worker
 
-You can use [wrangler](https://github.com/cloudflare/wrangler) to generate a new Cloudflare Workers project based on this template by running the following command from your terminal:
+### Routes
+- `/` - Returns a JSON object with the message `Hello, World!` - `GET`
+- `/ping` - Returns a JSON object with the message `Pong!` and the current time - `GET`
+- `/developer` - Create a cache entry for a developer with any body - `POST`
+- `/developer/:id` - Get a developer with the given ID - `GET`
 
+### Example
+#### Using `curl` to create a developer
+```bash
+curl -X POST -H "Content-Type: application/json" -d '{"name": "Vaishnav M K", "website": vaishnav.tech}' https://router.wishee.workers.dev/developer
 ```
-wrangler generate myapp https://github.com/cloudflare/worker-template-router
+
+#### Using `curl` to get a developer
+```bash
+curl https://router.wishee.workers.dev/developer/99xibk9eoij
 ```
 
-Before publishing your code you need to edit `wrangler.toml` file and add your Cloudflare `account_id` - more information about configuring and publishing your code can be found [in the documentation](https://developers.cloudflare.com/workers/learning/getting-started#7-configure-your-project-for-deployment).
-
-Once you are ready, you can publish your code by running the following command:
-
+#### Using native fetch to create a developer
+```js
+fetch('https://router.wishee.workers.dev/developer', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    name: 'Vaishnav M K',
+    website: 'vaishnav.tech'
+  })
+})
 ```
-wrangler publish
+
+#### Using native fetch to get a developer
+```js
+fetch('https://router.wishee.workers.dev/developer/99xibk9eoij')
 ```
